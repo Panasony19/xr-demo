@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>WebXR - AR Hit-Test Demo</title>
+  <title>WebXR – AR Hit‑Test Demo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
   <meta name="author" content="Demo WebXR" />
   <link rel="stylesheet" href="style.css" />
@@ -17,10 +17,10 @@
     let camera, scene, renderer;
     let controller, reticle;
     let hitTestSource = null;
-    let localSpace     = null;
-    let hitTestReady   = false;
+    let localSpace   = null;
+    let hitTestReady = false;
 
-    /* --- init ----------------------------------------------------------- */
+    /* --- init & loop ---------------------------------------------------- */
     init();
     animate();
 
@@ -36,7 +36,7 @@
       renderer.xr.enabled = true;
       document.body.appendChild(renderer.domElement);
 
-      /* luz básica (corrigido) */
+      /* luz básica (una sola, bien añadida) */
       const hemiLight = new THREE.HemisphereLight(0xffffff, 0xbbbbff, 1);
       hemiLight.position.set(0.5, 1, 0.25);
       scene.add(hemiLight);
@@ -58,7 +58,7 @@
       const button = ARButton.createButton(renderer, { requiredFeatures: ['hit-test'] });
       document.body.appendChild(button);
 
-      /* UX: oculta canvas hasta que arranque la sesión */
+      /* UX: oculta canvas hasta que arranque/termine la sesión */
       renderer.domElement.style.display = 'none';
       renderer.xr.addEventListener('sessionstart', () => (renderer.domElement.style.display = 'block'));
       renderer.xr.addEventListener('sessionend',   () => (renderer.domElement.style.display = 'none'));
@@ -70,13 +70,13 @@
     function onSelect() {
       if (!reticle.visible) return;
 
-      const geometry  = new THREE.CylinderGeometry(0, 0.05, 0.2, 32);
-      const material  = new THREE.MeshPhongMaterial({ color: Math.random() * 0xffffff });
-      const coneMesh  = new THREE.Mesh(geometry, material);
+      const geometry = new THREE.CylinderGeometry(0, 0.05, 0.2, 32);
+      const material = new THREE.MeshPhongMaterial({ color: Math.random() * 0xffffff });
+      const cone     = new THREE.Mesh(geometry, material);
 
-      coneMesh.position.setFromMatrixPosition(reticle.matrix);
-      coneMesh.quaternion.setFromRotationMatrix(reticle.matrix);
-      scene.add(coneMesh);
+      cone.position.setFromMatrixPosition(reticle.matrix);
+      cone.quaternion.setFromRotationMatrix(reticle.matrix);
+      scene.add(cone);
     }
 
     function onResize() {
@@ -98,8 +98,8 @@
       hitTestReady  = true;
 
       session.addEventListener('end', () => {
-        hitTestReady   = false;
-        hitTestSource  = null;
+        hitTestReady  = false;
+        hitTestSource = null;
       });
     }
 

@@ -1,14 +1,11 @@
-/* Ocupa toda la pantalla y evita scroll */
-html,
-body {
+html, body {
   width: 100%;
   height: 100%;
   margin: 0;
   overflow: hidden;
-  background: #000; /* color de fondo mientras carga */
+  background: #000;
 }
 
-/* Mejora el botón generado por ARButton */
 button.webxr-ar-button {
   position: absolute;
   bottom: 24px;
