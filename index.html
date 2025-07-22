@@ -36,8 +36,10 @@
       renderer.xr.enabled = true;
       document.body.appendChild(renderer.domElement);
 
-      /* luz básica */
-      scene.add(new THREE.HemisphereLight(0xffffff, 0xbbbbff, 1).position.set(0.5, 1, 0.25));
+      /* luz básica (corrigido) */
+      const hemiLight = new THREE.HemisphereLight(0xffffff, 0xbbbbff, 1);
+      hemiLight.position.set(0.5, 1, 0.25);
+      scene.add(hemiLight);
 
       /* retícula */
       const ringGeo = new THREE.RingGeometry(0.15, 0.2, 32).rotateX(-Math.PI / 2);
